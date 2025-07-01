@@ -29,13 +29,7 @@ filterButtons.forEach(button => {
         portfolioItems.forEach(item => {
             if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
                 item.style.display = 'block';
-                item.style.opacity = '0';
-                item.style.transform = 'translateY(20px)';
-                // Trigger animation after a small delay
-                setTimeout(() => {
-                    item.style.opacity = '1';
-                    item.style.transform = 'translateY(0)';
-                }, 50);
+                item.style.animation = 'fadeInUp 0.6s ease-out';
             } else {
                 item.style.display = 'none';
             }
@@ -78,20 +72,15 @@ const observerOptions = {
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
+            entry.target.style.animation = 'fadeInUp 0.8s ease-out forwards';
         }
     });
 }, observerOptions);
 
 // Observe elements for animation
 document.addEventListener('DOMContentLoaded', () => {
-    const animatedElements = document.querySelectorAll('.about-content, .portfolio-grid, .contact-content, .stats');
-    
-    animatedElements.forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(30px)';
-        el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+    const animateElements = document.querySelectorAll('.portfolio-item, .stat-item, .contact-item');
+    animateElements.forEach(el => {
         observer.observe(el);
     });
 });
@@ -147,228 +136,210 @@ portfolioItems.forEach(item => {
 
 // ENHANCED DYNAMIC LIGHTBOX FEATURE
 let currentImageIndex = 0;
-let imageArray = [];
+let currentImages = [];
 
-function createEnhancedLightbox() {
-    // Create enhanced lightbox elements
+function openImageViewer(imageSrc, images) {
+    currentImages = images;
+    currentImageIndex = images.indexOf(imageSrc);
+    
+    // Create lightbox
     const lightbox = document.createElement('div');
-    lightbox.className = 'enhanced-lightbox';
+    lightbox.className = 'lightbox';
     lightbox.innerHTML = `
-        <div class="lightbox-overlay"></div>
-        <div class="lightbox-container">
-            <div class="lightbox-header">
-                <span class="lightbox-counter">1 / 8</span>
-                <span class="lightbox-close">&times;</span>
+        <div class="lightbox-content">
+            <span class="close-lightbox">&times;</span>
+            <img src="${imageSrc}" alt="Portfolio Image" class="lightbox-image">
+            <div class="lightbox-nav">
+                <button class="nav-btn prev-btn">&lt;</button>
+                <button class="nav-btn next-btn">&gt;</button>
             </div>
-            <div class="lightbox-content">
-                <button class="lightbox-nav lightbox-prev">&lt;</button>
-                <div class="lightbox-image-container">
-                    <img class="lightbox-image" src="" alt="">
-                    <div class="lightbox-loading">Loading...</div>
-                </div>
-                <button class="lightbox-nav lightbox-next">&gt;</button>
-            </div>
-            <div class="lightbox-footer">
-                <div class="lightbox-caption"></div>
-                <div class="lightbox-controls">
-                    <button class="lightbox-zoom-in" title="Zoom In">+</button>
-                    <button class="lightbox-zoom-out" title="Zoom Out">-</button>
-                    <button class="lightbox-reset" title="Reset Zoom">⟲</button>
-                </div>
-            </div>
-            <div class="lightbox-thumbnails"></div>
+            <div class="lightbox-counter">${currentImageIndex + 1} / ${images.length}</div>
         </div>
     `;
+    
     document.body.appendChild(lightbox);
-
-    // Get all portfolio images and create image array
-    portfolioItems.forEach((item, index) => {
-        const img = item.querySelector('img');
-        const overlay = item.querySelector('.portfolio-overlay');
-        imageArray.push({
-            src: img.src,
-            alt: img.alt,
-            title: overlay.querySelector('h3').textContent,
-            description: overlay.querySelector('p').textContent
-        });
-    });
-
-    // Add click event to portfolio images
-    portfolioItems.forEach((item, index) => {
-        const img = item.querySelector('img');
+    
+    // Add lightbox styles
+    const style = document.createElement('style');
+    style.textContent = `
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            animation: fadeIn 0.3s ease-out;
+        }
         
-        img.addEventListener('click', () => {
-            currentImageIndex = index;
-            openLightbox(index);
-        });
-    });
-
-    // Navigation functions
-    function openLightbox(index) {
-        const lightbox = document.querySelector('.enhanced-lightbox');
-        const lightboxImg = lightbox.querySelector('.lightbox-image');
-        const lightboxCaption = lightbox.querySelector('.lightbox-caption');
-        const lightboxCounter = lightbox.querySelector('.lightbox-counter');
-        const lightboxLoading = lightbox.querySelector('.lightbox-loading');
+        .lightbox-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+        }
         
-        // Show loading
-        lightboxLoading.style.display = 'block';
-        lightboxImg.style.opacity = '0';
+        .lightbox-image {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 10px;
+        }
         
-        // Update image
-        lightboxImg.src = imageArray[index].src;
-        lightboxImg.alt = imageArray[index].alt;
-        lightboxCaption.innerHTML = `
-            <h3>${imageArray[index].title}</h3>
-            <p>${imageArray[index].description}</p>
-        `;
-        lightboxCounter.textContent = `${index + 1} / ${imageArray.length}`;
+        .close-lightbox {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
         
-        // Show lightbox with animation
-        lightbox.style.display = 'flex';
-        lightbox.style.opacity = '0';
-        setTimeout(() => {
-            lightbox.style.opacity = '1';
-        }, 10);
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
         
-        document.body.style.overflow = 'hidden';
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-size: 24px;
+            padding: 10px 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
         
-        // Hide loading when image loads
-        lightboxImg.onload = () => {
-            lightboxLoading.style.display = 'none';
-            lightboxImg.style.opacity = '1';
-        };
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
         
-        updateThumbnails();
-    }
-
-    function nextImage() {
-        currentImageIndex = (currentImageIndex + 1) % imageArray.length;
-        openLightbox(currentImageIndex);
-    }
-
-    function prevImage() {
-        currentImageIndex = (currentImageIndex - 1 + imageArray.length) % imageArray.length;
-        openLightbox(currentImageIndex);
-    }
-
-    function closeLightbox() {
-        const lightbox = document.querySelector('.enhanced-lightbox');
-        lightbox.style.opacity = '0';
-        setTimeout(() => {
-            lightbox.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }, 300);
-    }
-
-    function updateThumbnails() {
-        const thumbnailsContainer = document.querySelector('.lightbox-thumbnails');
-        thumbnailsContainer.innerHTML = '';
+        .lightbox-counter {
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 16px;
+        }
         
-        imageArray.forEach((img, index) => {
-            const thumbnail = document.createElement('div');
-            thumbnail.className = `lightbox-thumbnail ${index === currentImageIndex ? 'active' : ''}`;
-            thumbnail.innerHTML = `<img src="${img.src}" alt="${img.alt}">`;
-            thumbnail.addEventListener('click', () => {
-                currentImageIndex = index;
-                openLightbox(index);
-            });
-            thumbnailsContainer.appendChild(thumbnail);
-        });
-    }
-
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    `;
+    document.head.appendChild(style);
+    
     // Event listeners
-    const enhancedLightbox = document.querySelector('.enhanced-lightbox');
-    
-    // Navigation buttons
-    enhancedLightbox.querySelector('.lightbox-next').addEventListener('click', nextImage);
-    enhancedLightbox.querySelector('.lightbox-prev').addEventListener('click', prevImage);
-    enhancedLightbox.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
-    
-    // Close on overlay click
-    enhancedLightbox.querySelector('.lightbox-overlay').addEventListener('click', closeLightbox);
+    lightbox.querySelector('.close-lightbox').addEventListener('click', closeLightbox);
+    lightbox.querySelector('.prev-btn').addEventListener('click', showPrevImage);
+    lightbox.querySelector('.next-btn').addEventListener('click', showNextImage);
+    lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) closeLightbox();
+    });
     
     // Keyboard navigation
-    document.addEventListener('keydown', (e) => {
-        if (enhancedLightbox.style.display === 'flex') {
-            switch(e.key) {
-                case 'Escape':
-                    closeLightbox();
-                    break;
-                case 'ArrowRight':
-                    nextImage();
-                    break;
-                case 'ArrowLeft':
-                    prevImage();
-                    break;
-            }
-        }
-    });
-
-    // Zoom functionality
-    let currentZoom = 1;
-    const lightboxImg = enhancedLightbox.querySelector('.lightbox-image');
-    const zoomInBtn = enhancedLightbox.querySelector('.lightbox-zoom-in');
-    const zoomOutBtn = enhancedLightbox.querySelector('.lightbox-zoom-out');
-    const resetBtn = enhancedLightbox.querySelector('.lightbox-reset');
-
-    zoomInBtn.addEventListener('click', () => {
-        currentZoom = Math.min(currentZoom * 1.5, 4);
-        lightboxImg.style.transform = `scale(${currentZoom})`;
-    });
-
-    zoomOutBtn.addEventListener('click', () => {
-        currentZoom = Math.max(currentZoom / 1.5, 0.5);
-        lightboxImg.style.transform = `scale(${currentZoom})`;
-    });
-
-    resetBtn.addEventListener('click', () => {
-        currentZoom = 1;
-        lightboxImg.style.transform = 'scale(1)';
-    });
-
-    // Mouse wheel zoom
-    enhancedLightbox.querySelector('.lightbox-image-container').addEventListener('wheel', (e) => {
-        e.preventDefault();
-        if (e.deltaY < 0) {
-            currentZoom = Math.min(currentZoom * 1.1, 4);
-        } else {
-            currentZoom = Math.max(currentZoom / 1.1, 0.5);
-        }
-        lightboxImg.style.transform = `scale(${currentZoom})`;
-    });
+    document.addEventListener('keydown', handleKeyPress);
 }
 
-// Initialize enhanced lightbox when DOM is loaded
-document.addEventListener('DOMContentLoaded', createEnhancedLightbox);
+function closeLightbox() {
+    const lightbox = document.querySelector('.lightbox');
+    if (lightbox) {
+        lightbox.remove();
+        document.removeEventListener('keydown', handleKeyPress);
+    }
+}
+
+function showPrevImage() {
+    currentImageIndex = (currentImageIndex - 1 + currentImages.length) % currentImages.length;
+    updateLightboxImage();
+}
+
+function showNextImage() {
+    currentImageIndex = (currentImageIndex + 1) % currentImages.length;
+    updateLightboxImage();
+}
+
+function updateLightboxImage() {
+    const lightboxImage = document.querySelector('.lightbox-image');
+    const counter = document.querySelector('.lightbox-counter');
+    if (lightboxImage && counter) {
+        lightboxImage.src = currentImages[currentImageIndex];
+        counter.textContent = `${currentImageIndex + 1} / ${currentImages.length}`;
+    }
+}
+
+function handleKeyPress(e) {
+    switch(e.key) {
+        case 'Escape':
+            closeLightbox();
+            break;
+        case 'ArrowLeft':
+            showPrevImage();
+            break;
+        case 'ArrowRight':
+            showNextImage();
+            break;
+    }
+}
+
+// Add click handlers to portfolio items
+document.addEventListener('DOMContentLoaded', () => {
+    const portfolioItems = document.querySelectorAll('.portfolio-item');
+    const allImages = Array.from(portfolioItems).map(item => item.querySelector('img').src);
+    
+    portfolioItems.forEach(item => {
+        item.addEventListener('click', () => {
+            const img = item.querySelector('img');
+            if (img && img.src) {
+                openImageViewer(img.src, allImages);
+            }
+        });
+    });
+});
 
 // Contact form handling
 const contactForm = document.querySelector('.contact-form');
 if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
+    contactForm.addEventListener('submit', function(e) {
         e.preventDefault();
         
         // Get form data
-        const formData = new FormData(contactForm);
-        const submitBtn = contactForm.querySelector('.submit-btn');
+        const formData = new FormData(this);
+        const name = this.querySelector('input[type="text"]').value;
+        const email = this.querySelector('input[type="email"]').value;
+        const subject = this.querySelectorAll('input[type="text"]')[1].value;
+        const message = this.querySelector('textarea').value;
+        
+        // Simple validation
+        if (!name || !email || !subject || !message) {
+            alert('Please fill in all fields');
+            return;
+        }
         
         // Simulate form submission
+        const submitBtn = this.querySelector('.submit-btn');
+        const originalText = submitBtn.textContent;
         submitBtn.textContent = 'Sending...';
         submitBtn.disabled = true;
         
         setTimeout(() => {
-            submitBtn.textContent = 'Message Sent!';
-            submitBtn.style.background = 'linear-gradient(45deg, #27ae60, #2ecc71)';
-            
-            // Reset form
-            contactForm.reset();
-            
-            setTimeout(() => {
-                submitBtn.textContent = 'Send Message';
-                submitBtn.disabled = false;
-                submitBtn.style.background = 'linear-gradient(45deg, #e74c3c, #c0392b)';
-            }, 2000);
-        }, 1500);
+            alert('Thank you for your message! I will get back to you soon.');
+            this.reset();
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+        }, 2000);
     });
 }
 

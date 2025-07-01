@@ -3,10 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aashish Chand - Photographer Portfolio</title>
+    <title>Aashish Chand - Photography Portfolio</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Additional inline styles to ensure image visibility */
+        img {
+            display: block !important;
+            max-width: 100% !important;
+            height: auto !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            background: #f0f0f0 !important;
+        }
+        
+        .portfolio-item img {
+            min-height: 300px !important;
+            background: #f0f0f0 !important;
+        }
+        
+        .hero-image img {
+            min-height: 500px !important;
+            background: #f0f0f0 !important;
+        }
+        
+        .about-image img {
+            min-height: 500px !important;
+            background: #f0f0f0 !important;
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation -->
@@ -16,18 +42,10 @@
                 <h2>Aashish Chand</h2>
             </div>
             <ul class="nav-menu">
-                <li class="nav-item">
-                    <a href="#home" class="nav-link">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#portfolio" class="nav-link">Portfolio</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#contact" class="nav-link">Contact</a>
-                </li>
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#portfolio" class="nav-link">Portfolio</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
             </ul>
             <div class="hamburger">
                 <span class="bar"></span>
@@ -42,12 +60,17 @@
         <div class="hero-content">
             <div class="hero-text">
                 <h1 class="hero-title">Capturing Life's Beautiful Moments</h1>
-                <p class="hero-subtitle">Professional photographer specializing in portraits, landscapes, and events</p>
-                <button class="cta-button">View My Work</button>
+                <p class="hero-subtitle">Professional photographer specializing in portraits, landscapes, and creative photography</p>
+                <button class="cta-button" onclick="document.getElementById('portfolio').scrollIntoView({behavior: 'smooth'})">
+                    View My Work
+                </button>
             </div>
             <div class="hero-image">
                 <div class="floating-image">
-                    <img src="IMG_0013.JPG" alt="Photographer at work">
+                    <img src="IMG_0013.JPG" alt="Aashish Chand Photography" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div style="display:none; width:400px; height:500px; background:#f0f0f0; border-radius:20px; display:flex; align-items:center; justify-content:center; color:#666;">
+                        <i class="fas fa-image" style="font-size:3rem;"></i>
+                    </div>
                 </div>
             </div>
         </div>
@@ -59,16 +82,18 @@
     <!-- About Section -->
     <section id="about" class="about">
         <div class="container">
+            <h2 class="section-title">About Me</h2>
             <div class="about-content">
                 <div class="about-text">
-                    <h2 class="section-title">About Me</h2>
                     <p class="about-description">
-                        With over 8 years of experience behind the lens, I've developed a unique perspective on capturing the world's beauty. 
-                        My passion lies in creating authentic, emotion-driven photographs that tell compelling stories.
+                        I'm Aashish Chand, a passionate photographer with over 5 years of experience capturing life's most precious moments. 
+                        My journey in photography began with a simple love for visual storytelling and has evolved into a professional 
+                        career dedicated to creating timeless images that tell unique stories.
                     </p>
                     <p class="about-description">
-                        From intimate portraits to breathtaking landscapes, I believe every moment has the potential to become a timeless piece of art. 
-                        My work has been featured in various publications and exhibitions worldwide.
+                        Specializing in portrait photography, landscape shots, and creative compositions, I believe every photograph 
+                        should evoke emotion and tell a story. My work has been featured in various exhibitions and publications, 
+                        and I've had the privilege of working with clients from all walks of life.
                     </p>
                     <div class="stats">
                         <div class="stat-item">
@@ -80,13 +105,16 @@
                             <p>Photos Captured</p>
                         </div>
                         <div class="stat-item">
-                            <h3>8+</h3>
+                            <h3>5+</h3>
                             <p>Years Experience</p>
                         </div>
                     </div>
                 </div>
                 <div class="about-image">
-                    <img src="IMG_0017.JPG" alt="Photographer portrait">
+                    <img src="IMG_0017.JPG" alt="Aashish Chand at work" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div style="display:none; width:100%; height:500px; background:#f0f0f0; border-radius:20px; display:flex; align-items:center; justify-content:center; color:#666;">
+                        <i class="fas fa-camera" style="font-size:3rem;"></i>
+                    </div>
                 </div>
             </div>
         </div>
@@ -98,65 +126,89 @@
             <h2 class="section-title">Portfolio</h2>
             <div class="portfolio-filters">
                 <button class="filter-btn active" data-filter="all">All</button>
-                <button class="filter-btn" data-filter="portraits">Portraits</button>
-                <button class="filter-btn" data-filter="landscapes">Landscapes</button>
-                <button class="filter-btn" data-filter="events">Events</button>
+                <button class="filter-btn" data-filter="portrait">Portrait</button>
+                <button class="filter-btn" data-filter="landscape">Landscape</button>
+                <button class="filter-btn" data-filter="creative">Creative</button>
             </div>
             <div class="portfolio-grid">
-                <div class="portfolio-item" data-category="portraits">
-                    <img src="IMG_0008.JPG" alt="Portrait Photography">
+                <div class="portfolio-item" data-category="portrait">
+                    <img src="IMG_0008.JPG" alt="Portrait Photography" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div style="display:none; width:100%; height:300px; background:#f0f0f0; display:flex; align-items:center; justify-content:center; color:#666;">
+                        <i class="fas fa-user" style="font-size:2rem;"></i>
+                    </div>
                     <div class="portfolio-overlay">
-                        <h3>Professional Portrait</h3>
-                        <p>Studio photography</p>
+                        <h3>Portrait Series</h3>
+                        <p>Capturing the essence of human emotion</p>
                     </div>
                 </div>
-                <div class="portfolio-item" data-category="landscapes">
-                    <img src="IMG_0009.JPG" alt="Landscape Photography">
+                <div class="portfolio-item" data-category="landscape">
+                    <img src="IMG_0009.JPG" alt="Landscape Photography" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div style="display:none; width:100%; height:300px; background:#f0f0f0; display:flex; align-items:center; justify-content:center; color:#666;">
+                        <i class="fas fa-mountain" style="font-size:2rem;"></i>
+                    </div>
                     <div class="portfolio-overlay">
-                        <h3>Natural Beauty</h3>
-                        <p>Landscape photography</p>
+                        <h3>Natural Landscapes</h3>
+                        <p>Exploring the beauty of nature</p>
                     </div>
                 </div>
-                <div class="portfolio-item" data-category="events">
-                    <img src="IMG_0010.JPG" alt="Event Photography">
+                <div class="portfolio-item" data-category="creative">
+                    <img src="IMG_0010.JPG" alt="Creative Photography" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div style="display:none; width:100%; height:300px; background:#f0f0f0; display:flex; align-items:center; justify-content:center; color:#666;">
+                        <i class="fas fa-palette" style="font-size:2rem;"></i>
+                    </div>
                     <div class="portfolio-overlay">
-                        <h3>Special Moments</h3>
-                        <p>Event photography</p>
+                        <h3>Creative Vision</h3>
+                        <p>Artistic and experimental photography</p>
                     </div>
                 </div>
-                <div class="portfolio-item" data-category="portraits">
-                    <img src="IMG_0011.JPG" alt="Portrait Photography">
+                <div class="portfolio-item" data-category="portrait">
+                    <img src="IMG_0011.JPG" alt="Portrait Photography" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div style="display:none; width:100%; height:300px; background:#f0f0f0; display:flex; align-items:center; justify-content:center; color:#666;">
+                        <i class="fas fa-user" style="font-size:2rem;"></i>
+                    </div>
                     <div class="portfolio-overlay">
-                        <h3>Expressive Portrait</h3>
-                        <p>Character photography</p>
+                        <h3>Emotional Portraits</h3>
+                        <p>Deep connection through lens</p>
                     </div>
                 </div>
-                <div class="portfolio-item" data-category="landscapes">
-                    <img src="IMG_0012.JPG" alt="Landscape Photography">
+                <div class="portfolio-item" data-category="landscape">
+                    <img src="IMG_0012.JPG" alt="Landscape Photography" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div style="display:none; width:100%; height:300px; background:#f0f0f0; display:flex; align-items:center; justify-content:center; color:#666;">
+                        <i class="fas fa-mountain" style="font-size:2rem;"></i>
+                    </div>
                     <div class="portfolio-overlay">
-                        <h3>Urban Landscape</h3>
-                        <p>City photography</p>
+                        <h3>Urban Landscapes</h3>
+                        <p>Cityscapes and architecture</p>
                     </div>
                 </div>
-                <div class="portfolio-item" data-category="events">
-                    <img src="IMG_0014.JPG" alt="Event Photography">
+                <div class="portfolio-item" data-category="creative">
+                    <img src="IMG_0014.JPG" alt="Creative Photography" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div style="display:none; width:100%; height:300px; background:#f0f0f0; display:flex; align-items:center; justify-content:center; color:#666;">
+                        <i class="fas fa-palette" style="font-size:2rem;"></i>
+                    </div>
                     <div class="portfolio-overlay">
-                        <h3>Celebration</h3>
-                        <p>Event coverage</p>
+                        <h3>Abstract Art</h3>
+                        <p>Pushing creative boundaries</p>
                     </div>
                 </div>
-                <div class="portfolio-item" data-category="portraits">
-                    <img src="IMG_0015.JPG" alt="Portrait Photography">
+                <div class="portfolio-item" data-category="portrait">
+                    <img src="IMG_0015.JPG" alt="Portrait Photography" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div style="display:none; width:100%; height:300px; background:#f0f0f0; display:flex; align-items:center; justify-content:center; color:#666;">
+                        <i class="fas fa-user" style="font-size:2rem;"></i>
+                    </div>
                     <div class="portfolio-overlay">
-                        <h3>Artistic Portrait</h3>
-                        <p>Creative photography</p>
+                        <h3>Professional Portraits</h3>
+                        <p>Corporate and business photography</p>
                     </div>
                 </div>
-                <div class="portfolio-item" data-category="landscapes">
-                    <img src="IMG_0016.JPG" alt="Landscape Photography">
+                <div class="portfolio-item" data-category="landscape">
+                    <img src="IMG_0016.JPG" alt="Landscape Photography" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div style="display:none; width:100%; height:300px; background:#f0f0f0; display:flex; align-items:center; justify-content:center; color:#666;">
+                        <i class="fas fa-mountain" style="font-size:2rem;"></i>
+                    </div>
                     <div class="portfolio-overlay">
-                        <h3>Scenic View</h3>
-                        <p>Nature photography</p>
+                        <h3>Wildlife Photography</h3>
+                        <p>Nature in its purest form</p>
                     </div>
                 </div>
             </div>
@@ -173,21 +225,28 @@
                         <i class="fas fa-envelope"></i>
                         <div>
                             <h3>Email</h3>
-                            <p>aashishchand1001@gmail.com</p>
+                            <p>aashish.chand@email.com</p>
                         </div>
                     </div>
                     <div class="contact-item">
                         <i class="fas fa-phone"></i>
                         <div>
                             <h3>Phone</h3>
-                            <p>+977 9812785134</p>
+                            <p>+1 (555) 123-4567</p>
                         </div>
                     </div>
                     <div class="contact-item">
                         <i class="fas fa-map-marker-alt"></i>
                         <div>
                             <h3>Location</h3>
-                            <p>Kathmandu, Nepal</p>
+                            <p>San Francisco, CA</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <h3>Availability</h3>
+                            <p>Available for bookings</p>
                         </div>
                     </div>
                 </div>
@@ -226,10 +285,14 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 Aashish Chand Photography. All rights reserved.</p>
+                <p>&copy; 2024 Aashish Chand. All rights reserved.</p>
             </div>
         </div>
     </footer>
+
+    <script src="script.js"></script>
+</body>
+</html> 
 
     <script src="script.js"></script>
 </body>
