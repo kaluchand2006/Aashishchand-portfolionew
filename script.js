@@ -747,3 +747,66 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style); 
+
+// Animate sections on scroll
+function revealOnScroll() {
+    const reveals = document.querySelectorAll('section, .portfolio-item, .about-image, .about-text, .contact-item, .contact-form');
+    for (let i = 0; i < reveals.length; i++) {
+        const windowHeight = window.innerHeight;
+        const elementTop = reveals[i].getBoundingClientRect().top;
+        const elementVisible = 80;
+        if (elementTop < windowHeight - elementVisible) {
+            reveals[i].classList.add('visible');
+        }
+    }
+}
+window.addEventListener('scroll', revealOnScroll);
+window.addEventListener('DOMContentLoaded', revealOnScroll);
+
+// Smooth scroll for nav links
+const navLinks = document.querySelectorAll('.nav-link');
+navLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
+        if (href.startsWith('#')) {
+            e.preventDefault();
+            document.querySelector(href).scrollIntoView({ behavior: 'smooth' });
+        }
+    });
+});
+
+// Highlight nav links on scroll
+function highlightNav() {
+    const sections = document.querySelectorAll('section');
+    const scrollY = window.pageYOffset;
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop - 80;
+        const sectionHeight = section.offsetHeight;
+        const id = section.getAttribute('id');
+        if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${id}`) {
+                    link.classList.add('active');
+                }
+            });
+        }
+    });
+}
+window.addEventListener('scroll', highlightNav);
+window.addEventListener('DOMContentLoaded', highlightNav);
+
+// Hamburger menu for mobile
+if (hamburger && navMenu) {
+    hamburger.addEventListener('click', () => {
+        navMenu.classList.toggle('open');
+        hamburger.classList.toggle('open');
+    });
+    // Close menu on link click (mobile)
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+            navMenu.classList.remove('open');
+            hamburger.classList.remove('open');
+        });
+    });
+} 
