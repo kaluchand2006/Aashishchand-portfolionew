@@ -343,15 +343,25 @@ if (contactForm) {
     });
 }
 
-// Parallax effect for hero section
+// Parallax effect for hero image and background
 window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
     const hero = document.querySelector('.hero');
-    const floatingImage = document.querySelector('.floating-image');
-    
-    if (hero && floatingImage) {
-        const rate = scrolled * -0.5;
-        floatingImage.style.transform = `translateY(${rate}px)`;
+    const heroImage = document.querySelector('.floating-image');
+    const heroBg = document.querySelector('.hero-animated-bg');
+    const scrollY = window.scrollY;
+    if (hero) {
+        const offset = Math.min(scrollY, 400);
+        if (heroImage) {
+            heroImage.style.transform = `translateY(${offset * 0.18}px)`;
+        }
+        if (heroBg) {
+            heroBg.style.transform = `translateY(${offset * 0.08}px)`;
+            // Parallax for circles
+            const circles = heroBg.querySelectorAll('.circle');
+            circles.forEach((circle, i) => {
+                circle.style.transform = `translateY(${Math.sin((scrollY/60) + i) * 30}px)`;
+            });
+        }
     }
 });
 
@@ -810,3 +820,21 @@ if (hamburger && navMenu) {
         });
     });
 } 
+
+// Animated background circles for hero section
+window.addEventListener('DOMContentLoaded', () => {
+    const bg = document.querySelector('.hero-animated-bg');
+    if (bg) {
+        for (let i = 0; i < 7; i++) {
+            const circle = document.createElement('div');
+            circle.className = 'circle';
+            const size = Math.random() * 120 + 60;
+            circle.style.width = `${size}px`;
+            circle.style.height = `${size}px`;
+            circle.style.left = `${Math.random() * 90}%`;
+            circle.style.top = `${Math.random() * 80}%`;
+            circle.style.animationDuration = `${12 + Math.random() * 8}s`;
+            bg.appendChild(circle);
+        }
+    }
+}); 
