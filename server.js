@@ -4,7 +4,7 @@ const path = require('path');
 const cors = require('cors');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 const MESSAGES_FILE = path.join(__dirname, 'messages.json');
 
 app.use(cors());

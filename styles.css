@@ -1,5 +1,5 @@
 /* =====================
-   AI CAMERA LOADING ANIMATION
+   ULTRA PROFESSIONAL LOADING ANIMATION
 ====================== */
 .loading-overlay {
     position: fixed;
@@ -7,42 +7,74 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, #22223b 0%, #4a4e69 100%);
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #0a0a0a 100%);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 10000;
-    transition: opacity 0.8s ease-out;
+    transition: opacity 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    overflow: hidden;
+}
+
+.loading-overlay::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(100, 181, 246, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(66, 165, 245, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(30, 136, 229, 0.05) 0%, transparent 50%);
+    animation: backgroundShift 8s ease-in-out infinite;
 }
 
 .loading-overlay.fade-out {
     opacity: 0;
     pointer-events: none;
+    transform: scale(1.05);
 }
 
 .camera-container {
     position: relative;
-    width: 120px;
-    height: 120px;
+    width: 160px;
+    height: 160px;
     display: flex;
     align-items: center;
     justify-content: center;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 50%;
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        0 0 0 1px rgba(255, 255, 255, 0.05);
+    animation: containerFloat 4s ease-in-out infinite;
 }
 
 .camera-icon {
     font-size: 4rem;
     color: #fff;
-    animation: cameraPulse 2s ease-in-out infinite;
-    filter: drop-shadow(0 0 20px rgba(255,255,255,0.6));
+    animation: cameraFocus 4s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
+    z-index: 2;
+    position: relative;
+    text-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
 }
 
 .camera-lens {
     position: absolute;
-    width: 60px;
-    height: 60px;
-    border: 3px solid #fff;
+    width: 100px;
+    height: 100px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
     border-radius: 50%;
-    animation: lensRotate 3s linear infinite;
+    animation: lensFocus 5s ease-in-out infinite;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+    box-shadow: 
+        0 0 30px rgba(100, 181, 246, 0.2),
+        inset 0 0 20px rgba(255, 255, 255, 0.05);
 }
 
 .camera-lens::before {
@@ -51,11 +83,26 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 40px;
-    height: 40px;
-    background: radial-gradient(circle, #fff 0%, transparent 70%);
+    width: 70px;
+    height: 70px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 60%);
     border-radius: 50%;
-    animation: lensGlow 2s ease-in-out infinite alternate;
+    animation: lensAperture 3s ease-in-out infinite;
+    box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.1);
+}
+
+.camera-lens::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    animation: lensRing 4s ease-in-out infinite;
+    background: radial-gradient(circle, rgba(100, 181, 246, 0.1) 0%, transparent 70%);
 }
 
 .ai-particles {
@@ -69,58 +116,204 @@
     position: absolute;
     width: 4px;
     height: 4px;
-    background: #9a8c98;
+    background: linear-gradient(45deg, #64b5f6, #42a5f5, #2196f3);
     border-radius: 50%;
-    animation: particleFloat 4s linear infinite;
+    animation: particleScan 8s linear infinite;
+    box-shadow: 
+        0 0 12px rgba(100, 181, 246, 0.8),
+        0 0 24px rgba(100, 181, 246, 0.4);
+    filter: blur(0.5px);
 }
 
 .particle:nth-child(1) { left: 10%; animation-delay: 0s; }
-.particle:nth-child(2) { left: 20%; animation-delay: 0.5s; }
-.particle:nth-child(3) { left: 30%; animation-delay: 1s; }
-.particle:nth-child(4) { left: 40%; animation-delay: 1.5s; }
-.particle:nth-child(5) { left: 50%; animation-delay: 2s; }
-.particle:nth-child(6) { left: 60%; animation-delay: 2.5s; }
-.particle:nth-child(7) { left: 70%; animation-delay: 3s; }
-.particle:nth-child(8) { left: 80%; animation-delay: 3.5s; }
-.particle:nth-child(9) { left: 90%; animation-delay: 4s; }
+.particle:nth-child(2) { left: 20%; animation-delay: 1s; }
+.particle:nth-child(3) { left: 30%; animation-delay: 2s; }
+.particle:nth-child(4) { left: 40%; animation-delay: 3s; }
+.particle:nth-child(5) { left: 50%; animation-delay: 4s; }
+.particle:nth-child(6) { left: 60%; animation-delay: 5s; }
+.particle:nth-child(7) { left: 70%; animation-delay: 6s; }
+.particle:nth-child(8) { left: 80%; animation-delay: 7s; }
+.particle:nth-child(9) { left: 90%; animation-delay: 8s; }
 
 .loading-text {
     position: absolute;
-    bottom: -60px;
+    bottom: -100px;
     left: 50%;
     transform: translateX(-50%);
     color: #fff;
     font-size: 1.2rem;
-    font-weight: 500;
-    letter-spacing: 2px;
-    animation: textGlow 2s ease-in-out infinite alternate;
+    font-weight: 300;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    animation: textPulse 3s ease-in-out infinite;
+    opacity: 0.8;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
 }
 
-@keyframes cameraPulse {
-    0%, 100% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.1); opacity: 0.8; }
+.loading-text::after {
+    content: '';
+    position: absolute;
+    bottom: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #64b5f6, #42a5f5, #2196f3);
+    animation: textProgress 4s ease-in-out infinite;
+    border-radius: 2px;
+    box-shadow: 0 0 10px rgba(100, 181, 246, 0.6);
 }
 
-@keyframes lensRotate {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+/* Additional floating elements */
+.floating-element {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    animation: floatElement 6s ease-in-out infinite;
 }
 
-@keyframes lensGlow {
-    0% { opacity: 0.3; transform: translate(-50%, -50%) scale(0.8); }
-    100% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+.floating-element:nth-child(1) { top: 20%; left: 15%; animation-delay: 0s; }
+.floating-element:nth-child(2) { top: 60%; left: 85%; animation-delay: 2s; }
+.floating-element:nth-child(3) { top: 80%; left: 25%; animation-delay: 4s; }
+
+@keyframes backgroundShift {
+    0%, 100% { 
+        opacity: 0.3; 
+        transform: scale(1) rotate(0deg);
+    }
+    50% { 
+        opacity: 0.6; 
+        transform: scale(1.1) rotate(180deg);
+    }
 }
 
-@keyframes particleFloat {
-    0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-    10% { opacity: 1; }
-    90% { opacity: 1; }
-    100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+@keyframes containerFloat {
+    0%, 100% { 
+        transform: translateY(0px) scale(1); 
+        box-shadow: 
+            0 20px 60px rgba(0, 0, 0, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1),
+            0 0 0 1px rgba(255, 255, 255, 0.05);
+    }
+    50% { 
+        transform: translateY(-10px) scale(1.02); 
+        box-shadow: 
+            0 30px 80px rgba(0, 0, 0, 0.5),
+            inset 0 1px 0 rgba(255, 255, 255, 0.15),
+            0 0 0 1px rgba(255, 255, 255, 0.1);
+    }
 }
 
-@keyframes textGlow {
-    0% { text-shadow: 0 0 10px rgba(255,255,255,0.5); }
-    100% { text-shadow: 0 0 20px rgba(255,255,255,0.8); }
+@keyframes cameraFocus {
+    0%, 100% { 
+        transform: scale(1) rotate(0deg); 
+        opacity: 0.8; 
+        filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
+    }
+    25% { 
+        transform: scale(1.08) rotate(1deg); 
+        opacity: 1; 
+        filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.5));
+    }
+    75% { 
+        transform: scale(1.05) rotate(-1deg); 
+        opacity: 0.9; 
+        filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.4));
+    }
+}
+
+@keyframes lensFocus {
+    0%, 100% { 
+        transform: rotate(0deg) scale(1); 
+        border-color: rgba(255, 255, 255, 0.2);
+        box-shadow: 0 0 30px rgba(100, 181, 246, 0.2);
+    }
+    25% { 
+        transform: rotate(90deg) scale(1.15); 
+        border-color: rgba(100, 181, 246, 0.5);
+        box-shadow: 0 0 40px rgba(100, 181, 246, 0.4);
+    }
+    75% { 
+        transform: rotate(270deg) scale(1.1); 
+        border-color: rgba(66, 165, 245, 0.4);
+        box-shadow: 0 0 35px rgba(66, 165, 245, 0.3);
+    }
+}
+
+@keyframes lensAperture {
+    0%, 100% { 
+        opacity: 0.15; 
+        transform: translate(-50%, -50%) scale(0.9);
+    }
+    50% { 
+        opacity: 0.7; 
+        transform: translate(-50%, -50%) scale(1.15);
+    }
+}
+
+@keyframes lensRing {
+    0%, 100% { 
+        border-color: rgba(255, 255, 255, 0.3);
+        transform: translate(-50%, -50%) scale(1);
+        background: radial-gradient(circle, rgba(100, 181, 246, 0.1) 0%, transparent 70%);
+    }
+    50% { 
+        border-color: rgba(100, 181, 246, 0.8);
+        transform: translate(-50%, -50%) scale(1.3);
+        background: radial-gradient(circle, rgba(100, 181, 246, 0.3) 0%, transparent 70%);
+    }
+}
+
+@keyframes particleScan {
+    0% { 
+        transform: translateY(100vh) scale(0) rotate(0deg); 
+        opacity: 0; 
+    }
+    10% { 
+        opacity: 1; 
+        transform: translateY(90vh) scale(1) rotate(45deg);
+    }
+    90% { 
+        opacity: 1; 
+        transform: translateY(10vh) scale(1) rotate(315deg);
+    }
+    100% { 
+        transform: translateY(-50px) scale(0) rotate(360deg); 
+        opacity: 0; 
+    }
+}
+
+@keyframes textPulse {
+    0%, 100% { 
+        opacity: 0.6; 
+        text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+        letter-spacing: 4px;
+    }
+    50% { 
+        opacity: 1; 
+        text-shadow: 0 0 25px rgba(255, 255, 255, 0.4);
+        letter-spacing: 5px;
+    }
+}
+
+@keyframes textProgress {
+    0% { width: 0; opacity: 0.5; }
+    25% { width: 40px; opacity: 0.8; }
+    75% { width: 100px; opacity: 1; }
+    100% { width: 140px; opacity: 0.8; }
+}
+
+@keyframes floatElement {
+    0%, 100% { 
+        transform: translateY(0px) scale(1); 
+        opacity: 0.3;
+    }
+    50% { 
+        transform: translateY(-20px) scale(1.5); 
+        opacity: 0.8;
+    }
 }
 
 /* Hide main content during loading */
