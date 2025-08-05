@@ -1,3 +1,27 @@
+// AI Camera Loading Animation
+document.addEventListener('DOMContentLoaded', function() {
+    const loadingOverlay = document.getElementById('loadingOverlay');
+    const body = document.body;
+    
+    // Add loading class to body
+    body.classList.add('loading');
+    
+    // Simulate loading time and show camera animation
+    setTimeout(() => {
+        // Fade out loading overlay
+        loadingOverlay.classList.add('fade-out');
+        
+        // Remove loading class and add loaded class
+        body.classList.remove('loading');
+        body.classList.add('loaded');
+        
+        // Remove loading overlay after fade out
+        setTimeout(() => {
+            loadingOverlay.style.display = 'none';
+        }, 800);
+    }, 3500); // 3.5 seconds of animation
+});
+
 // Mobile Navigation Toggle
 const hamburger = document.querySelector('.hamburger');
 const navMenu = document.querySelector('.nav-menu');
@@ -758,20 +782,44 @@ style.textContent = `
 `;
 document.head.appendChild(style); 
 
-// Animate sections on scroll
+// =====================
+// INTERACTIVITY ENHANCEMENTS
+// =====================
+// Animated Entrances on Scroll
 function revealOnScroll() {
-    const reveals = document.querySelectorAll('section, .portfolio-item, .about-image, .about-text, .contact-item, .contact-form');
-    for (let i = 0; i < reveals.length; i++) {
-        const windowHeight = window.innerHeight;
-        const elementTop = reveals[i].getBoundingClientRect().top;
-        const elementVisible = 80;
-        if (elementTop < windowHeight - elementVisible) {
-            reveals[i].classList.add('visible');
-        }
+  const revealEls = document.querySelectorAll('section, .portfolio-item, .about-image, .about-text, .contact-item, .contact-form');
+  const windowHeight = window.innerHeight;
+  revealEls.forEach(el => {
+    const top = el.getBoundingClientRect().top;
+    if (top < windowHeight - 60) {
+      el.classList.add('visible');
     }
+  });
 }
 window.addEventListener('scroll', revealOnScroll);
 window.addEventListener('DOMContentLoaded', revealOnScroll);
+
+// Parallax Hero Image
+const heroImg = document.querySelector('.hero-image img');
+if (heroImg) {
+  window.addEventListener('mousemove', e => {
+    const x = (e.clientX / window.innerWidth - 0.5) * 20;
+    const y = (e.clientY / window.innerHeight - 0.5) * 20;
+    heroImg.style.transform = `scale(1.04) rotate(-2deg) translate(${x}px, ${y}px)`;
+  });
+  window.addEventListener('mouseleave', () => {
+    heroImg.style.transform = '';
+  });
+}
+
+// Interactive Cursor Toggle
+function enableInteractiveCursor() {
+  document.body.classList.add('interactive-cursor');
+}
+function disableInteractiveCursor() {
+  document.body.classList.remove('interactive-cursor');
+}
+document.addEventListener('DOMContentLoaded', enableInteractiveCursor);
 
 // Smooth scroll for nav links
 const navLinks = document.querySelectorAll('.nav-link');
@@ -837,4 +885,44 @@ window.addEventListener('DOMContentLoaded', () => {
             bg.appendChild(circle);
         }
     }
+}); 
+
+// =====================
+// ADVANCED INTERACTIVITY ENHANCEMENTS
+// =====================
+// Advanced Parallax Layers
+const parallaxLayers = document.querySelectorAll('.parallax-layer');
+window.addEventListener('mousemove', e => {
+  parallaxLayers.forEach((layer, i) => {
+    const speed = (i + 1) * 0.04;
+    const x = (e.clientX / window.innerWidth - 0.5) * 60 * speed;
+    const y = (e.clientY / window.innerHeight - 0.5) * 60 * speed;
+    layer.style.transform = `translate(${x}px, ${y}px)`;
+  });
+});
+
+// Light/Dark Mode Toggle
+const themeToggle = document.querySelector('.theme-toggle');
+if (themeToggle) {
+  themeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+    themeToggle.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+  });
+}
+
+// Animated Background (shapes move on scroll)
+const bgShapes = document.querySelectorAll('.animated-bg .bg-shape');
+window.addEventListener('scroll', () => {
+  bgShapes.forEach((shape, i) => {
+    shape.style.transform = `translateY(${window.scrollY * (0.08 + i * 0.04)}px)`;
+  });
+});
+
+// Subtle Sound Effects
+const clickSound = new Audio('https://cdn.pixabay.com/audio/2022/07/26/audio_124bfae7b7.mp3');
+[...document.querySelectorAll('button, .portfolio-item, .filter-btn, .cta-button')].forEach(el => {
+  el.addEventListener('click', () => {
+    clickSound.currentTime = 0;
+    clickSound.play();
+  });
 }); 
