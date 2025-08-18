@@ -1,19 +1,22 @@
 /* =====================
    ULTRA PROFESSIONAL LOADING ANIMATION
 ====================== */
+
+/* --- PROFESSIONAL REALISTIC LOADING ANIMATION --- */
 .loading-overlay {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #0a0a0a 100%);
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(120deg, #0a0a0a 0%, #1a1a2e 40%, #16213e 70%, #0f3460 100%);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 10000;
-    transition: opacity 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: opacity 1.2s cubic-bezier(0.4, 0.2, 0.2, 1);
     overflow: hidden;
+    animation: loadingBgShift 3.5s cubic-bezier(0.4,0.2,0.2,1) forwards;
 }
 
 .loading-overlay::before {
@@ -21,60 +24,131 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     background: 
-        radial-gradient(circle at 20% 80%, rgba(100, 181, 246, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(66, 165, 245, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 40% 40%, rgba(30, 136, 229, 0.05) 0%, transparent 50%);
-    animation: backgroundShift 8s ease-in-out infinite;
+        radial-gradient(circle at 20% 80%, rgba(100, 181, 246, 0.13) 0%, transparent 60%),
+        radial-gradient(circle at 80% 20%, rgba(66, 165, 245, 0.13) 0%, transparent 60%),
+        radial-gradient(circle at 40% 40%, rgba(30, 136, 229, 0.08) 0%, transparent 60%);
+    animation: loadingBgGlow 6s ease-in-out infinite;
+    pointer-events: none;
 }
 
 .loading-overlay.fade-out {
     opacity: 0;
     pointer-events: none;
     transform: scale(1.05);
+    transition: opacity 1.2s cubic-bezier(0.4,0.2,0.2,1);
+}
+
+.loading-overlay.zooming .camera-container {
+    animation: cameraZoomIn 1.2s cubic-bezier(0.4,0.2,0.2,1) forwards;
+    z-index: 10001;
 }
 
 .camera-container {
     position: relative;
-    width: 160px;
-    height: 160px;
+    width: 170px;
+    height: 170px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.03);
+    background: 
+        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 70% 70%, rgba(100, 181, 246, 0.06) 0%, transparent 50%),
+        rgba(255, 255, 255, 0.04);
     border-radius: 50%;
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(24px);
+    border: 1.5px solid rgba(255, 255, 255, 0.10);
     box-shadow: 
-        0 20px 60px rgba(0, 0, 0, 0.4),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1),
-        0 0 0 1px rgba(255, 255, 255, 0.05);
-    animation: containerFloat 4s ease-in-out infinite;
+        0 24px 70px rgba(0, 0, 0, 0.45),
+        inset 0 2px 0 rgba(255, 255, 255, 0.13),
+        0 0 0 2px rgba(255, 255, 255, 0.07),
+        0 0 40px rgba(100, 181, 246, 0.1);
+    animation: containerFloat 4s ease-in-out infinite, cameraSpin 2.8s cubic-bezier(0.4,0.2,0.2,1) infinite;
+    perspective: 600px;
+    transition: transform 1.2s cubic-bezier(0.4,0.2,0.2,1);
+    position: relative;
+}
+
+.camera-container::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, rgba(100, 181, 246, 0.3), rgba(66, 165, 245, 0.3), rgba(30, 136, 229, 0.3));
+    border-radius: 50%;
+    z-index: -1;
+    animation: containerGlow 4s ease-in-out infinite;
+    opacity: 0.5;
+}
+@keyframes cameraZoomIn {
+    0% {
+        transform: scale(1) perspective(600px);
+        filter: blur(0px);
+    }
+    70% {
+        transform: scale(7) perspective(200px);
+        filter: blur(2px);
+    }
+    100% {
+        transform: scale(12) perspective(100px);
+        filter: blur(8px);
+        opacity: 0.2;
+    }
 }
 
 .camera-icon {
-    font-size: 4rem;
+    font-size: 4.2rem;
     color: #fff;
     animation: cameraFocus 4s ease-in-out infinite;
-    filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
+    filter: drop-shadow(0 0 24px rgba(255, 255, 255, 0.35));
     z-index: 2;
     position: relative;
-    text-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+    text-shadow: 0 0 36px rgba(255, 255, 255, 0.55);
+    will-change: transform;
 }
 
 .camera-lens {
     position: absolute;
-    width: 100px;
-    height: 100px;
-    border: 2px solid rgba(255, 255, 255, 0.2);
+    width: 110px;
+    height: 110px;
+    border: 2.5px solid rgba(255, 255, 255, 0.22);
     border-radius: 50%;
-    animation: lensFocus 5s ease-in-out infinite;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+    animation: lensFocus 5s ease-in-out infinite, lens3DSpin 2.8s cubic-bezier(0.4,0.2,0.2,1) infinite;
+    background: 
+        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.12) 0%, transparent 50%),
+        radial-gradient(circle at 70% 70%, rgba(100, 181, 246, 0.08) 0%, transparent 50%),
+        radial-gradient(circle, rgba(255, 255, 255, 0.07) 0%, transparent 70%);
     box-shadow: 
-        0 0 30px rgba(100, 181, 246, 0.2),
-        inset 0 0 20px rgba(255, 255, 255, 0.05);
+        0 0 36px rgba(100, 181, 246, 0.22),
+        inset 0 0 24px rgba(255, 255, 255, 0.07),
+        0 0 0 1px rgba(255, 255, 255, 0.05);
+    will-change: transform;
+    position: relative;
+}
+
+/* Enhanced lens aperture with realistic depth */
+.camera-lens::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70px;
+    height: 70px;
+    background: 
+        radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.25) 0%, transparent 50%),
+        radial-gradient(circle at 60% 60%, rgba(100, 181, 246, 0.15) 0%, transparent 50%),
+        radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 60%);
+    border-radius: 50%;
+    animation: lensAperture 3s ease-in-out infinite;
+    box-shadow: 
+        inset 0 0 20px rgba(255, 255, 255, 0.12),
+        0 0 0 1px rgba(255, 255, 255, 0.08),
+        inset 0 0 0 1px rgba(0, 0, 0, 0.1);
 }
 
 .camera-lens::before {
@@ -109,20 +183,22 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    overflow: hidden;
+    overflow: visible;
+    pointer-events: none;
 }
 
 .particle {
     position: absolute;
-    width: 4px;
-    height: 4px;
-    background: linear-gradient(45deg, #64b5f6, #42a5f5, #2196f3);
+    width: 4.5px;
+    height: 4.5px;
+    background: linear-gradient(60deg, #64b5f6, #42a5f5, #2196f3);
     border-radius: 50%;
-    animation: particleScan 8s linear infinite;
+    animation: particleScan 7.5s cubic-bezier(0.4,0.2,0.2,1) infinite;
     box-shadow: 
-        0 0 12px rgba(100, 181, 246, 0.8),
-        0 0 24px rgba(100, 181, 246, 0.4);
-    filter: blur(0.5px);
+        0 0 14px rgba(100, 181, 246, 0.85),
+        0 0 28px rgba(100, 181, 246, 0.45);
+    filter: blur(0.7px);
+    opacity: 0.85;
 }
 
 .particle:nth-child(1) { left: 10%; animation-delay: 0s; }
@@ -141,13 +217,35 @@
     left: 50%;
     transform: translateX(-50%);
     color: #fff;
-    font-size: 1.2rem;
-    font-weight: 300;
-    letter-spacing: 4px;
+    font-size: 1.25rem;
+    font-weight: 400;
+    letter-spacing: 4.5px;
     text-transform: uppercase;
-    animation: textPulse 3s ease-in-out infinite;
-    opacity: 0.8;
-    text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+    animation: textPulse 2.2s cubic-bezier(0.4,0.2,0.2,1) infinite;
+    opacity: 0.88;
+    text-shadow: 
+        0 0 24px rgba(255, 255, 255, 0.33),
+        0 0 48px rgba(100, 181, 246, 0.2),
+        0 0 72px rgba(66, 165, 245, 0.1);
+    filter: blur(0.1px);
+    position: relative;
+}
+
+.loading-text::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -10px;
+    right: -10px;
+    bottom: -5px;
+    background: linear-gradient(90deg, 
+        rgba(100, 181, 246, 0.1) 0%, 
+        rgba(66, 165, 245, 0.1) 50%, 
+        rgba(30, 136, 229, 0.1) 100%);
+    border-radius: 20px;
+    z-index: -1;
+    animation: textBackground 3s ease-in-out infinite;
+    opacity: 0.3;
 }
 
 .loading-text::after {
@@ -159,9 +257,88 @@
     width: 0;
     height: 3px;
     background: linear-gradient(90deg, #64b5f6, #42a5f5, #2196f3);
-    animation: textProgress 4s ease-in-out infinite;
+    animation: textProgress 3.2s cubic-bezier(0.4,0.2,0.2,1) infinite;
     border-radius: 2px;
-    box-shadow: 0 0 10px rgba(100, 181, 246, 0.6);
+    box-shadow: 0 0 12px rgba(100, 181, 246, 0.7);
+}
+@keyframes loadingBgShift {
+    0% { 
+        filter: blur(0px) brightness(0.8) contrast(1.1); 
+        transform: scale(1) rotate(0deg);
+    }
+    50% { 
+        filter: blur(1.5px) brightness(0.95) contrast(1.15); 
+        transform: scale(1.02) rotate(0.5deg);
+    }
+    100% { 
+        filter: blur(2.5px) brightness(1.05) contrast(1.2); 
+        transform: scale(1.05) rotate(1deg);
+    }
+}
+
+@keyframes loadingBgGlow {
+    0%, 100% { 
+        opacity: 0.3; 
+        filter: blur(0px) saturate(1.1);
+        transform: scale(1) rotate(0deg);
+    }
+    25% { 
+        opacity: 0.5; 
+        filter: blur(1px) saturate(1.2);
+        transform: scale(1.01) rotate(0.3deg);
+    }
+    50% { 
+        opacity: 0.6; 
+        filter: blur(2.5px) saturate(1.3);
+        transform: scale(1.02) rotate(0.6deg);
+    }
+    75% { 
+        opacity: 0.5; 
+        filter: blur(1.5px) saturate(1.2);
+        transform: scale(1.01) rotate(0.3deg);
+    }
+}
+
+@keyframes cameraSpin {
+    0% { 
+        transform: rotateY(0deg) scale(1) translateZ(0px); 
+        filter: drop-shadow(0 0 24px rgba(255, 255, 255, 0.35));
+    }
+    25% { 
+        transform: rotateY(90deg) scale(1.005) translateZ(5px); 
+        filter: drop-shadow(0 0 28px rgba(255, 255, 255, 0.4));
+    }
+    50% { 
+        transform: rotateY(180deg) scale(1.01) translateZ(10px); 
+        filter: drop-shadow(0 0 32px rgba(255, 255, 255, 0.45));
+    }
+    75% { 
+        transform: rotateY(270deg) scale(1.005) translateZ(5px); 
+        filter: drop-shadow(0 0 28px rgba(255, 255, 255, 0.4));
+    }
+    100% { 
+        transform: rotateY(360deg) scale(1) translateZ(0px); 
+        filter: drop-shadow(0 0 24px rgba(255, 255, 255, 0.35));
+    }
+}
+
+@keyframes lens3DSpin {
+    0% { 
+        transform: rotateX(0deg) scale(1) rotateZ(0deg); 
+        border-color: rgba(255, 255, 255, 0.22);
+    }
+    33% { 
+        transform: rotateX(120deg) scale(1.02) rotateZ(120deg); 
+        border-color: rgba(100, 181, 246, 0.4);
+    }
+    66% { 
+        transform: rotateX(240deg) scale(1.03) rotateZ(240deg); 
+        border-color: rgba(66, 165, 245, 0.3);
+    }
+    100% { 
+        transform: rotateX(360deg) scale(1) rotateZ(360deg); 
+        border-color: rgba(255, 255, 255, 0.22);
+    }
 }
 
 /* Additional floating elements */
@@ -268,20 +445,49 @@
 
 @keyframes particleScan {
     0% { 
-        transform: translateY(100vh) scale(0) rotate(0deg); 
+        transform: translateY(100vh) scale(0) rotate(0deg) translateX(0px); 
         opacity: 0; 
+        filter: blur(1px);
+    }
+    5% { 
+        opacity: 0.3; 
+        transform: translateY(95vh) scale(0.3) rotate(22.5deg) translateX(2px);
+        filter: blur(0.8px);
     }
     10% { 
         opacity: 1; 
-        transform: translateY(90vh) scale(1) rotate(45deg);
+        transform: translateY(90vh) scale(1) rotate(45deg) translateX(5px);
+        filter: blur(0.5px);
+    }
+    25% { 
+        opacity: 1; 
+        transform: translateY(75vh) scale(1.1) rotate(90deg) translateX(8px);
+        filter: blur(0.3px);
+    }
+    50% { 
+        opacity: 1; 
+        transform: translateY(50vh) scale(1.2) rotate(180deg) translateX(10px);
+        filter: blur(0.2px);
+    }
+    75% { 
+        opacity: 1; 
+        transform: translateY(25vh) scale(1.1) rotate(270deg) translateX(8px);
+        filter: blur(0.3px);
     }
     90% { 
         opacity: 1; 
-        transform: translateY(10vh) scale(1) rotate(315deg);
+        transform: translateY(10vh) scale(1) rotate(315deg) translateX(5px);
+        filter: blur(0.5px);
+    }
+    95% { 
+        opacity: 0.3; 
+        transform: translateY(5vh) scale(0.3) rotate(337.5deg) translateX(2px);
+        filter: blur(0.8px);
     }
     100% { 
-        transform: translateY(-50px) scale(0) rotate(360deg); 
+        transform: translateY(-50px) scale(0) rotate(360deg) translateX(0px); 
         opacity: 0; 
+        filter: blur(1px);
     }
 }
 
@@ -305,14 +511,52 @@
     100% { width: 140px; opacity: 0.8; }
 }
 
-@keyframes floatElement {
+@keyframes textBackground {
     0%, 100% { 
-        transform: translateY(0px) scale(1); 
-        opacity: 0.3;
+        opacity: 0.3; 
+        transform: scale(1) translateX(0px);
+        filter: blur(0px);
     }
     50% { 
-        transform: translateY(-20px) scale(1.5); 
+        opacity: 0.6; 
+        transform: scale(1.05) translateX(5px);
+        filter: blur(1px);
+    }
+}
+
+@keyframes containerGlow {
+    0%, 100% { 
+        opacity: 0.5; 
+        transform: scale(1) rotate(0deg);
+        filter: blur(0px);
+    }
+    50% { 
+        opacity: 0.8; 
+        transform: scale(1.05) rotate(180deg);
+        filter: blur(1px);
+    }
+}
+
+@keyframes floatElement {
+    0%, 100% { 
+        transform: translateY(0px) scale(1) rotate(0deg); 
+        opacity: 0.3;
+        filter: blur(0px);
+    }
+    25% { 
+        transform: translateY(-10px) scale(1.2) rotate(90deg); 
+        opacity: 0.5;
+        filter: blur(0.3px);
+    }
+    50% { 
+        transform: translateY(-20px) scale(1.5) rotate(180deg); 
         opacity: 0.8;
+        filter: blur(0.5px);
+    }
+    75% { 
+        transform: translateY(-10px) scale(1.2) rotate(270deg); 
+        opacity: 0.5;
+        filter: blur(0.3px);
     }
 }
 

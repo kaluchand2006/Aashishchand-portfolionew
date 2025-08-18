@@ -4,6 +4,10 @@
   "description": "Aashish Chand - Photography Portfolio",
   "main": "script.js",
   "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
     "dev": "serve .",
     "backend": "node server.js"
   },
@@ -15,11 +19,27 @@
   "author": "Aashish Chand",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.18.2",
-    "cors": "^2.8.5"
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "react-router-dom": "^7.8.0",
+    "react-scripts": "^5.0.1"
   },
   "devDependencies": {
     "live-server": "^1.2.2",
     "serve": "^14.2.4"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

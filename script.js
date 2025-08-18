@@ -1,3 +1,20 @@
+// Camera zoom-in transition before revealing the site
+window.addEventListener('load', function() {
+  const overlay = document.querySelector('.loading-overlay');
+  if (overlay) {
+    setTimeout(() => {
+      overlay.classList.add('zooming');
+      setTimeout(() => {
+        overlay.classList.add('fade-out');
+        document.body.classList.remove('loading');
+        document.body.classList.add('loaded');
+        setTimeout(() => {
+          overlay.style.display = 'none';
+        }, 1200); // matches fade-out duration
+      }, 1200); // matches cameraZoomIn duration
+    }, 1200); // delay before zoom starts (adjust as needed)
+  }
+});
 // AI Camera Loading Animation
 document.addEventListener('DOMContentLoaded', function() {
     const loadingOverlay = document.getElementById('loadingOverlay');
